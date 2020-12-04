@@ -1,0 +1,6 @@
+name: RandomChest
+version: ${project.version}
+main: com.hollyday.randomchest.RandomChest
+commands:
+  RandomChest:
+    aliases: rc
