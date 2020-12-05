@@ -15,31 +15,45 @@ public class RandomChestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage("플레이어 전용 명령어");
+            sender.sendMessage(RandomChest.prefix+"§cThis command is only available to player.");
             return true;
         }
-
         if(args.length < 1) {
-            sender.sendMessage("도움말");
             return false;
         }
-
         Player player = (Player) sender;
-
-        switch (args[0]) {
+        switch(args[0]) {
             case "wand":
                 player.getInventory().addItem(this.chestManager.getWand());
                 sender.sendMessage(RandomChest.prefix+"지급되었습니다.");
-                break;
-            case "setitem":
-                player.getInventory().getItemInMainHand();
-                break;
-            case "start":
-                this.chestManager.run();
+                return true;
+            case "run":
+                this.chestManager.runRandomChest();
+                sender.sendMessage("랜덤");
+                return true;
+            case "reset":
+
+                return true;
+            case "help":
+                sender.sendMessage("");
+                return true;
+            case "item":
                 break;
             default:
-                sender.sendMessage("도움말");
-                //도움말
+                return false;
+        }
+        if(args.length < 2) {
+            return true;
+            //help item
+        }
+        switch(args[1]) {
+            case "set":
+                sender.sendMessage("");
+                break;
+            case "":
+                sender.sendMessage("d");
+                break;
+            default:
                 break;
         }
         return true;
@@ -50,10 +64,11 @@ public class RandomChestCommand implements CommandExecutor {
     /rc wand
     /rc run
     /rc reset
+    /rc item
 
-    /rc setitem <amount>
-    /rc list
-    /rc remove <number>
-    /rc resetitem
-    /rc setblank
+    /rc item set <amount>
+    /rc item list
+    /rc item remove <name>
+    /rc item reset
+    /rc item blank
  */

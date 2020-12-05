@@ -3,7 +3,7 @@ package com.hollyday.randomchest;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RandomChest extends JavaPlugin {
-    public static final String prefix = "랜상";
+    public static final String prefix = "§f[ §6RandomChest §f] ";
     private final RandomChestManager chestManager;
 
     public RandomChest() {
