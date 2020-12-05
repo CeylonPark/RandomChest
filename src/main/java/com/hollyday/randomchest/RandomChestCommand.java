@@ -14,10 +14,46 @@ public class RandomChestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(args[0].equals("setitem")) {
-            Player player = (Player) sender;
-            player.getInventory().getItemInMainHand();
+        if(!(sender instanceof Player)) {
+            sender.sendMessage("플레이어 전용 명령어");
+            return true;
+        }
+
+        if(args.length < 1) {
+            sender.sendMessage("도움말");
+            return false;
+        }
+
+        Player player = (Player) sender;
+
+        switch (args[0]) {
+            case "wand":
+                player.getInventory().addItem(this.chestManager.getWand());
+                sender.sendMessage(RandomChest.prefix+"지급되었습니다.");
+                break;
+            case "setitem":
+                player.getInventory().getItemInMainHand();
+                break;
+            case "start":
+                this.chestManager.run();
+                break;
+            default:
+                sender.sendMessage("도움말");
+                //도움말
+                break;
         }
         return true;
     }
 }
+
+/*
+    /rc wand
+    /rc run
+    /rc reset
+
+    /rc setitem <amount>
+    /rc list
+    /rc remove <number>
+    /rc resetitem
+    /rc setblank
+ */
