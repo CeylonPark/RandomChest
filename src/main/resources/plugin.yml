@@ -1,0 +1,8 @@
+name: RandomChest
+version: ${project.version}
+main: com.hollyday.randomchest.RandomChest
+commands:
+  RandomChest:
+    description: 'This is RandomChest Command.'
+    usage: 'Usage: /randomchest help'
+    aliases: rc
