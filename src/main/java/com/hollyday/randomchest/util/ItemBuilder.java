@@ -7,14 +7,23 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemBuilder extends ItemStack {
-    private ItemMeta itemMeta;
+public class ItemBuilder {
+    private final ItemStack itemStack;
+    private final ItemMeta itemMeta;
     private List<String> lore = new ArrayList<>();
 
     public ItemBuilder(Material material) {
-        setType(material);
-        setAmount(1);
-        this.itemMeta = this.getItemMeta();
+        this.itemStack = new ItemStack(material, 1);
+        this.itemMeta = this.itemStack.getItemMeta();
+    }
+    public ItemBuilder(ItemStack itemStack) {
+        this.itemStack = new ItemStack(itemStack);
+        this.itemMeta = this.itemStack.getItemMeta();
+    }
+    public ItemBuilder(ItemStack itemStack, int amount) {
+        this.itemStack = new ItemStack(itemStack);
+        this.itemMeta = this.itemStack.getItemMeta();
+        this.itemStack.setAmount(amount);
     }
 
     public ItemBuilder setDisplayName(String s) {
@@ -29,14 +38,18 @@ public class ItemBuilder extends ItemStack {
         this.lore.add(s);
         return this;
     }
-    public ItemBuilder setDur(short durability) {
-        super.setDurability(durability);
+    public ItemBuilder setAmount(int amount) {
+        this.itemStack.setAmount(amount);
+        return this;
+    }
+    public ItemBuilder setDurability(short durability) {
+        this.itemStack.setDurability(durability);
         return this;
     }
 
     public ItemStack build() {
         this.itemMeta.setLore(this.lore);
-        setItemMeta(this.itemMeta);
-        return this;
+        this.itemStack.setItemMeta(this.itemMeta);
+        return this.itemStack;
     }
 }

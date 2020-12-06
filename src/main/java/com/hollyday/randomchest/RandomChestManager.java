@@ -20,14 +20,16 @@ public class RandomChestManager {
     private final Plugin plugin;
     private final ItemStack wand;
     private final Location[] poses;
-    private final Map<ItemStack, Integer> items;
+    private final Map<String, ItemStack> items;
+    private final Map<String, Integer> itemsCounts;
     private ItemStack blank;
 
     public RandomChestManager(Plugin plugin) {
         this.plugin = plugin;
-        this.wand = new ItemBuilder(Material.STICK).setDisplayName("§d훌륭한 막대기").build();
+        this.wand = new ItemBuilder(Material.STICK).setDisplayName("§dRandom Chest Wand").build();
         this.poses = new Location[2];
         this.items = new HashMap<>();
+        this.itemsCounts = new HashMap<>();
     }
 
     public ItemStack getWand() {
@@ -38,38 +40,64 @@ public class RandomChestManager {
             this.poses[pos] = location;
         }
     }
-    public void setItems(ItemStack itemStack, int amount) {
-        this.items.put(itemStack, amount);
+    public void setItems(String name, ItemStack itemStack, int amount) {
+        this.items.put(name, new ItemBuilder(itemStack, 1).build());
+        this.itemsCounts.put(name, amount);
     }
-    public void remove(String displayName) {
-
+    public boolean removeItems(String name) {
+        return this.items.remove(name) != null | this.itemsCounts.remove(name) != null;
     }
-    public String[] getItemsToString() {
-        return null;
+    public void clearItems() {
+        this.items.clear();
+        this.itemsCounts.clear();
     }
-
-    public void runRandomChest() {
-        if(this.poses[0] == null || this.poses[1] == null) {
-            return;
+    public String[] getItemsToStrings() {
+        String[] items = new String[this.items.size()];
+        int i = 0;
+        for(String name : this.items.keySet()) {
+            items[i] = name + " : " + this.itemsCounts.get(name);
+            i++;
         }
-        if(!this.poses[0].getWorld().equals(this.poses[1].getWorld())) {
-            return;
-        }
+        return items;
+    }
+    public void setBlank(ItemStack itemStack) {
+        this.blank = itemStack;
+    }
+    public boolean runRandomChest() {
         Set<Inventory> inventories = this.getChestInventories();
-        if(inventories.size() < this.getMaxItemAmount()) {
-            return;
+        if(inventories == null || inventories.size() < this.getMaxItemAmount()) {
+            return false;
         }
-
+        //요기만 만들면 됨.
         System.out.println("시작");
+        return true;
+    }
+    public boolean resetRandomChest() {
+        Set<Inventory> inventories = this.getChestInventories();
+        if(inventories == null) {
+            return false;
+        }
+        for(Inventory inventory : inventories) {
+            inventory.clear();
+        }
+        return true;
+    }
+    private boolean isSetPoses() {
+        return this.poses[0] != null && this.poses[1] != null
+                && this.poses[0].getWorld().equals(this.poses[1].getWorld());
     }
     private int getMaxItemAmount() {
         int amount = 0;
-        for(ItemStack itemStack : this.items.keySet()) {
-            amount += this.items.get(itemStack);
+        for(String string : this.itemsCounts.keySet()) {
+            amount += this.itemsCounts.get(string);
         }
         return amount;
     }
     private Set<Inventory> getChestInventories() {
+        Set<Inventory> inventories = new HashSet<>();
+        if(!isSetPoses()) {
+            return null;
+        }
         Map<Location, Inventory> inventoryMap = new HashMap<>();
         World world = this.poses[0].getWorld();
         Vector max = Vector.getMaximum(this.poses[0].toVector(), this.poses[1].toVector());
@@ -85,7 +113,6 @@ public class RandomChestManager {
                 }
             }
         }
-        Set<Inventory> inventories = new HashSet<>();
         for(Location location : inventoryMap.keySet()) {
             inventories.add(inventoryMap.get(location));
         }
