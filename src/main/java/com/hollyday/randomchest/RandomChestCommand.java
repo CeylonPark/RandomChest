@@ -12,13 +12,13 @@ public class RandomChestCommand implements CommandExecutor {
             RandomChest.prefix+"§6Usage: /rc ...",
             "  §d-> §f/rc wand",
             "  §d-> §f/rc run",
-            "  §d-> §f/rc reset",
+            "  §d-> §f/rc clear",
             "  §6Usage: /rc item ...",
             "    §d-> §f/rc item set <name> <amount>",
             "    §d-> §f/rc item remove <name>",
             "    §d-> §f/rc item list",
-            "    §d-> §f/rc item reset",
-            "    §d-> §f/rc item blank"
+            "    §d-> §f/rc item blank",
+            "    §d-> §f/rc item clear"
     };
     private final RandomChestManager chestManager;
 
@@ -48,8 +48,8 @@ public class RandomChestCommand implements CommandExecutor {
                     sender.sendMessage(RandomChest.prefix+"§cFailure");
                 }
                 return true;
-            case "reset":
-                if(this.chestManager.resetRandomChest()) {
+            case "clear":
+                if(this.chestManager.clearRandomChest()) {
                     sender.sendMessage(RandomChest.prefix+"§aSuccess");
                 } else {
                     sender.sendMessage(RandomChest.prefix+"§cFailure");
@@ -75,6 +75,7 @@ public class RandomChestCommand implements CommandExecutor {
                 ItemStack itemStack = this.getPlayerTool(player);
                 if(itemStack.getType() == Material.AIR) {
                     sender.sendMessage(RandomChest.prefix+"§cYou are not holding an item!");
+                    return true;
                 }
                 try {
                     this.chestManager.setItems(args[2], itemStack, Math.max(Integer.parseInt(args[3]), 0));
@@ -98,17 +99,14 @@ public class RandomChestCommand implements CommandExecutor {
             case "list":
                 sender.sendMessage(this.chestManager.getItemsToStrings());
                 return true;
-            case "reset":
-                this.chestManager.clearItems();
-                sender.sendMessage(RandomChest.prefix+"§aClear!");
-                return true;
             case "blank":
                 ItemStack blank = this.getPlayerTool(player);
-                if(blank.getType() == Material.AIR) {
-                    sender.sendMessage(RandomChest.prefix+"§cYou are not holding an item!");
-                }
                 this.chestManager.setBlank(blank);
                 sender.sendMessage(RandomChest.prefix+"§aSet Blank Item");
+                return true;
+            case "clear":
+                this.chestManager.clearItems();
+                sender.sendMessage(RandomChest.prefix+"§aClear!");
                 return true;
             default:
                 return false;

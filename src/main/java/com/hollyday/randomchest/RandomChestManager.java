@@ -11,10 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RandomChestManager {
     private final Plugin plugin;
@@ -50,6 +47,7 @@ public class RandomChestManager {
     public void clearItems() {
         this.items.clear();
         this.itemsCounts.clear();
+        this.blank = null;
     }
     public String[] getItemsToStrings() {
         String[] items = new String[this.items.size()];
@@ -64,19 +62,28 @@ public class RandomChestManager {
         this.blank = itemStack;
     }
     public boolean runRandomChest() {
-        Set<Inventory> inventories = this.getChestInventories();
-        if(inventories == null || inventories.size() < this.getMaxItemAmount()) {
+        List<Inventory> inventories = new ArrayList<>(this.getChestInventories());
+        if(inventories.size() < this.getMaxItemAmount()) {
             return false;
         }
-        //요기만 만들면 됨.
-        System.out.println("시작");
+        this.clearRandomChest();
+        Collections.shuffle(inventories);
+        int count = 0;
+        for(String string : this.itemsCounts.keySet()) {
+            for(int i = 0; i < this.itemsCounts.get(string); i++) {
+                inventories.get(count++).addItem(this.items.get(string));
+            }
+        }
+        if(this.blank == null || this.blank.getType() == Material.AIR) {
+            return true;
+        }
+        for(int i = count; i < inventories.size(); i++) {
+            inventories.get(i).addItem(this.blank);
+        }
         return true;
     }
-    public boolean resetRandomChest() {
+    public boolean clearRandomChest() {
         Set<Inventory> inventories = this.getChestInventories();
-        if(inventories == null) {
-            return false;
-        }
         for(Inventory inventory : inventories) {
             inventory.clear();
         }
@@ -96,7 +103,7 @@ public class RandomChestManager {
     private Set<Inventory> getChestInventories() {
         Set<Inventory> inventories = new HashSet<>();
         if(!isSetPoses()) {
-            return null;
+            return inventories;
         }
         Map<Location, Inventory> inventoryMap = new HashMap<>();
         World world = this.poses[0].getWorld();
