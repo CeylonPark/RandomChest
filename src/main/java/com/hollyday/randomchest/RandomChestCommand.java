@@ -55,6 +55,14 @@ public class RandomChestCommand implements CommandExecutor {
                     sender.sendMessage(RandomChest.prefix+"§cFailure");
                 }
                 return true;
+            case "empty":
+                this.chestManager.setEmpty(!chestManager.getEmpty());
+                if(this.chestManager.getEmpty()) {
+                    sender.sendMessage(RandomChest.prefix+"§aEnable");
+                } else {
+                    sender.sendMessage(RandomChest.prefix+"§cDisable");
+                }
+                return true;
             case "help":
                 sender.sendMessage(RandomChestCommand.help);
                 return true;

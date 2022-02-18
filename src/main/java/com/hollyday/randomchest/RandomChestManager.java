@@ -20,6 +20,7 @@ public class RandomChestManager {
     private final Map<String, ItemStack> items;
     private final Map<String, Integer> itemsCounts;
     private ItemStack blank;
+    private boolean empty;
 
     public RandomChestManager(Plugin plugin) {
         this.plugin = plugin;
@@ -27,6 +28,14 @@ public class RandomChestManager {
         this.poses = new Location[2];
         this.items = new HashMap<>();
         this.itemsCounts = new HashMap<>();
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+
+    public boolean getEmpty() {
+        return this.empty;
     }
 
     public ItemStack getWand() {
