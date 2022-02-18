@@ -58,9 +58,11 @@ public class RandomChestManager {
         }
         return items;
     }
+
     public void setBlank(ItemStack itemStack) {
         this.blank = itemStack;
     }
+
     public boolean runRandomChest() {
         List<Inventory> inventories = new ArrayList<>(this.getChestInventories());
         if(inventories.size() < this.getMaxItemAmount()) {
@@ -71,7 +73,9 @@ public class RandomChestManager {
         int count = 0;
         for(String string : this.itemsCounts.keySet()) {
             for(int i = 0; i < this.itemsCounts.get(string); i++) {
-                inventories.get(count++).addItem(this.items.get(string));
+                //inventories.get(count++).addItem(this.items.get(string));
+                //아이템 중간에 설정
+                inventories.get(count++).setItem(13, this.items.get(string));
             }
         }
         if(this.blank == null || this.blank.getType() == Material.AIR) {
