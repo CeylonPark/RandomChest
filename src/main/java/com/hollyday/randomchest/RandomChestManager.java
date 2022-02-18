@@ -75,11 +75,22 @@ public class RandomChestManager {
         if(inventories.size() < this.getMaxItemAmount()) {
             return false;
         }
-        this.clearRandomChest();
+        if(!this.empty) {
+            this.clearRandomChest();
+        }
         Collections.shuffle(inventories);
         int count = 0;
         for(String string : this.itemsCounts.keySet()) {
             for(int i = 0; i < this.itemsCounts.get(string); i++) {
+                boolean b = true;
+                for(ItemStack itemStack : inventories.get(count + 1).getStorageContents()) {
+                    if(itemStack != null) {
+                        b = false;
+                    }
+                }
+                if(!b) {
+                    continue;
+                }
                 inventories.get(count++).addItem(this.items.get(string));
             }
         }
