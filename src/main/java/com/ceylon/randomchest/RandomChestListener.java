@@ -1,4 +1,4 @@
-package com.hollyday.randomchest;
+package com.ceylon.randomchest;
 
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -22,7 +22,7 @@ public class RandomChestListener implements Listener {
             Location location = event.getClickedBlock().getLocation();
             int pos = event.getAction() == Action.LEFT_CLICK_BLOCK ? 0 : 1;
             this.chestManager.setPos(location, pos);
-            event.getPlayer().sendMessage(new StringBuilder(RandomChest.prefix)
+            event.getPlayer().sendMessage(new StringBuilder(RandomChestPlugin.prefix)
                     .append("§d").append(pos == 0 ? "First" : "Second").append(" position set to (")
                     .append(location.getX()).append(", ").append(location.getY()).append(", ")
                     .append(location.getZ()).append(")").toString());

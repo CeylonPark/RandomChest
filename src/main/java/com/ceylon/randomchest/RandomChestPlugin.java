@@ -1,12 +1,12 @@
-package com.hollyday.randomchest;
+package com.ceylon.randomchest;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class RandomChest extends JavaPlugin {
+public final class RandomChestPlugin extends JavaPlugin {
     public static final String prefix = "§f[ §6RandomChest §f] ";
     private final RandomChestManager chestManager;
 
-    public RandomChest() {
+    public RandomChestPlugin() {
         this.chestManager = new RandomChestManager(this);
     }
 

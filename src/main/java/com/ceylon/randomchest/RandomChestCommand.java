@@ -1,4 +1,4 @@
-package com.hollyday.randomchest;
+package com.ceylon.randomchest;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class RandomChestCommand implements CommandExecutor {
     private static final String[] help = {
-            RandomChest.prefix+"§6Usage: /rc ...",
+            RandomChestPlugin.prefix+"§6Usage: /rc ...",
             "  §d-> §f/rc wand",
             "  §d-> §f/rc run",
             "  §d-> §f/rc clear",
@@ -29,7 +29,7 @@ public class RandomChestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) {
-            sender.sendMessage(RandomChest.prefix+"§cThis command is only available to player.");
+            sender.sendMessage(RandomChestPlugin.prefix+"§cThis command is only available to player.");
             return true;
         }
         if(args.length < 1) {
@@ -39,20 +39,20 @@ public class RandomChestCommand implements CommandExecutor {
         switch(args[0]) {
             case "wand":
                 player.getInventory().addItem(this.chestManager.getWand());
-                sender.sendMessage(RandomChest.prefix+"§dLeft click: select pos #1: Right click: select pos #2");
+                sender.sendMessage(RandomChestPlugin.prefix+"§dLeft click: select pos #1: Right click: select pos #2");
                 return true;
             case "run":
                 if(this.chestManager.runRandomChest()) {
-                    sender.sendMessage(RandomChest.prefix+"§aSuccess");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§aSuccess");
                 } else {
-                    sender.sendMessage(RandomChest.prefix+"§cFailure");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§cFailure");
                 }
                 return true;
             case "clear":
                 if(this.chestManager.clearRandomChest()) {
-                    sender.sendMessage(RandomChest.prefix+"§aSuccess");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§aSuccess");
                 } else {
-                    sender.sendMessage(RandomChest.prefix+"§cFailure");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§cFailure");
                 }
                 return true;
             case "help":
@@ -69,31 +69,31 @@ public class RandomChestCommand implements CommandExecutor {
         switch(args[1]) {
             case "set":
                 if(args.length != 4) {
-                    sender.sendMessage(RandomChest.prefix+"Usage: /randomchest item set <name> <amount>");
+                    sender.sendMessage(RandomChestPlugin.prefix+"Usage: /randomchest item set <name> <amount>");
                     return true;
                 }
                 ItemStack itemStack = this.getPlayerTool(player);
                 if(itemStack.getType() == Material.AIR) {
-                    sender.sendMessage(RandomChest.prefix+"§cYou are not holding an item!");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§cYou are not holding an item!");
                     return true;
                 }
                 try {
                     this.chestManager.setItems(args[2], itemStack, Math.max(Integer.parseInt(args[3]), 0));
-                    sender.sendMessage(RandomChest.prefix+"§aSet Item");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§aSet Item");
                 } catch(NumberFormatException e) {
-                    sender.sendMessage(RandomChest.prefix+"Usage: /randomchest item set <name> <amount>");
+                    sender.sendMessage(RandomChestPlugin.prefix+"Usage: /randomchest item set <name> <amount>");
                     return true;
                 }
                 return true;
             case "remove":
                 if(args.length != 3) {
-                    sender.sendMessage(RandomChest.prefix+"Usage: /randomchest item remove <name>");
+                    sender.sendMessage(RandomChestPlugin.prefix+"Usage: /randomchest item remove <name>");
                     return true;
                 }
                 if(this.chestManager.removeItems(args[2])) {
-                    sender.sendMessage(RandomChest.prefix+"§aRemove item");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§aRemove item");
                 } else {
-                    sender.sendMessage(RandomChest.prefix+"§cNot Found");
+                    sender.sendMessage(RandomChestPlugin.prefix+"§cNot Found");
                 }
                 return true;
             case "list":
@@ -102,11 +102,11 @@ public class RandomChestCommand implements CommandExecutor {
             case "blank":
                 ItemStack blank = this.getPlayerTool(player);
                 this.chestManager.setBlank(blank);
-                sender.sendMessage(RandomChest.prefix+"§aSet Blank Item");
+                sender.sendMessage(RandomChestPlugin.prefix+"§aSet Blank Item");
                 return true;
             case "clear":
                 this.chestManager.clearItems();
-                sender.sendMessage(RandomChest.prefix+"§aClear!");
+                sender.sendMessage(RandomChestPlugin.prefix+"§aClear!");
                 return true;
             default:
                 return false;

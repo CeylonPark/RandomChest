@@ -1,6 +1,6 @@
-package com.hollyday.randomchest;
+package com.ceylon.randomchest;
 
-import com.hollyday.randomchest.util.ItemBuilder;
+import com.ceylon.randomchest.util.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;

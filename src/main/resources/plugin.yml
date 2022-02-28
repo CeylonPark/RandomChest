@@ -1,6 +1,6 @@
 name: RandomChest
 version: ${project.version}
-main: com.hollyday.randomchest.RandomChest
+main: com.ceylon.randomchest.RandomChestPlugin
 commands:
   RandomChest:
     description: 'This is RandomChest Command.'
