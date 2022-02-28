@@ -1,9 +1,10 @@
 package com.ceylon.randomchest;
 
+import com.ceylon.randomchest.command.RandomChestCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class RandomChestPlugin extends JavaPlugin {
-    public static final String prefix = "§f[ §6RandomChest §f] ";
+    public static final String prefix = "§f[ §6랜덤상자 §f] ";
     private final RandomChestManager chestManager;
 
     public RandomChestPlugin() {
@@ -12,7 +13,7 @@ public final class RandomChestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getCommand("RandomChest").setExecutor(new RandomChestCommand(this.chestManager));
+        getCommand("랜덤상자").setExecutor(new RandomChestCommand(this, "랜덤상자", this.chestManager));
         getServer().getPluginManager().registerEvents(new RandomChestListener(this.chestManager), this);
     }
 

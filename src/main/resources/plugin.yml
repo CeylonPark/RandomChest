@@ -2,7 +2,7 @@ name: RandomChest
 version: ${project.version}
 main: com.ceylon.randomchest.RandomChestPlugin
 commands:
-  RandomChest:
+  랜던상자:
     description: 'This is RandomChest Command.'
-    usage: 'Usage: /randomchest help'
-    aliases: rc
+    usage: 'Usage: /랜덤상자 도움말'
+    aliases: [randomchest, rc]
